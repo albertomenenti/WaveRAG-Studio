@@ -26,7 +26,8 @@
         radial-gradient(1200px 700px at 10% -10%, #0b2a4b 0%, transparent 60%),
         radial-gradient(900px 600px at 90% 0%, #063a56 0%, transparent 55%),
         linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
-      line-height:1.6;
+      line-height:1.7;
+      letter-spacing:.1px;
     }
     a{color:inherit; text-decoration:none}
     .container{max-width:1100px; margin:0 auto; padding:0 20px}
@@ -40,7 +41,11 @@
       display:flex; align-items:center; justify-content:space-between; height:64px;
     }
     .logo{
-      display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px;
+      display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:.2px;
+    }
+    .logo-img{
+      height:34px; width:auto; display:block;
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,.35));
     }
     .pill{
       font-size:12px; color:#7dd3fc; background:rgba(56,189,248,.12);
@@ -62,24 +67,27 @@
     }
 
     /* Hero */
-    .hero{padding:70px 0 40px}
+    .hero{padding:90px 0 60px}
     .hero-grid{
-      display:grid; grid-template-columns: 1.1fr .9fr; gap:26px; align-items:center;
+      display:grid; grid-template-columns: 1.1fr .9fr; gap:34px; align-items:center;
     }
     .tag{
       display:inline-flex; gap:8px; align-items:center; color:#7dd3fc;
       font-size:13px; background:rgba(125,211,252,.1);
       padding:6px 10px; border-radius:999px; border:1px solid rgba(125,211,252,.35);
     }
-    h1{font-size:44px; line-height:1.1; margin:14px 0}
-    .lead{font-size:18px; color:#d6e4f7}
-    .cta-row{display:flex; gap:10px; margin-top:18px; flex-wrap:wrap}
+    h1{font-size:44px; line-height:1.12; margin:16px 0}
+    .lead{
+      font-size:18px; color:#d6e4f7;
+      max-width:60ch;
+    }
+    .cta-row{display:flex; gap:10px; margin-top:22px; flex-wrap:wrap}
     .stats{
-      display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:22px;
+      display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:26px;
     }
     .stat{
       background:rgba(11,35,64,.7); border:1px solid rgba(255,255,255,.06);
-      padding:14px; border-radius:14px;
+      padding:16px; border-radius:14px;
     }
     .stat b{font-size:20px}
     .stat span{display:block; font-size:12px; color:var(--muted)}
@@ -87,12 +95,12 @@
     .hero-card{
       background: linear-gradient(180deg, rgba(11,35,64,.85), rgba(6,26,50,.95));
       border:1px solid rgba(255,255,255,.08);
-      padding:18px; border-radius:var(--radius); box-shadow: var(--shadow);
+      padding:20px; border-radius:var(--radius); box-shadow: var(--shadow);
       position:relative; overflow:hidden;
     }
     .hero-card .bubble{
-      position:absolute; width:220px; height:220px; border-radius:999px;
-      right:-80px; top:-80px; background: radial-gradient(circle, rgba(56,189,248,.30), transparent 60%);
+      position:absolute; width:240px; height:240px; border-radius:999px;
+      right:-90px; top:-90px; background: radial-gradient(circle, rgba(56,189,248,.30), transparent 60%);
       filter: blur(1px);
     }
     .hero-card .row{display:flex; gap:10px; margin:10px 0}
@@ -101,72 +109,110 @@
       background:#061a32; border:1px solid rgba(255,255,255,.07); color:#cfe2fb;
     }
     .query{
-      margin-top:10px; background:#061a32; border:1px dashed rgba(255,255,255,.12);
+      margin-top:12px; background:#061a32; border:1px dashed rgba(255,255,255,.12);
       padding:12px; border-radius:12px; font-size:14px; color:#e2ecfb;
     }
     .answer{
-      margin-top:10px; background:#062b2a; border:1px solid rgba(52,211,153,.4);
+      margin-top:12px; background:#062b2a; border:1px solid rgba(52,211,153,.4);
       padding:12px; border-radius:12px; font-size:14px;
     }
     .answer small{color:#a7f3d0}
 
-    section{padding:46px 0}
-    .section-title{font-size:28px; margin:0 0 8px}
-    .section-lead{color:var(--muted); margin:0 0 18px}
+    section{padding:70px 0}
+    .section-title{font-size:28px; margin:0 0 10px}
+    .section-lead{
+      color:var(--muted); margin:0 0 24px;
+      max-width:70ch;
+    }
 
     .cards{
-      display:grid; grid-template-columns:repeat(3,1fr); gap:14px;
+      display:grid; grid-template-columns:repeat(3,1fr); gap:18px;
     }
     .card{
       background:rgba(11,35,64,.75); border:1px solid rgba(255,255,255,.07);
-      padding:16px; border-radius:16px;
+      padding:20px; border-radius:16px;
+      display:grid; gap:8px;
     }
-    .card h3{margin:0 0 6px; font-size:18px}
+    .card .icon{
+      width:38px; height:38px; border-radius:12px;
+      display:grid; place-items:center; color:#031627;
+      background:linear-gradient(135deg,var(--brand),var(--brand2));
+      box-shadow:0 8px 18px rgba(0,0,0,.25);
+      font-weight:800;
+    }
+    .card h3{margin:0; font-size:18px}
     .card p{margin:0; color:#d7e6fb; font-size:14.5px}
 
-    .two-col{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+    .two-col{display:grid; grid-template-columns:1fr 1fr; gap:18px}
     .list{
       background:rgba(11,35,64,.6); border:1px solid rgba(255,255,255,.06);
-      padding:16px; border-radius:16px;
+      padding:20px; border-radius:16px;
     }
     .list ul{margin:0; padding-left:18px; color:#d7e6fb}
-    .list li{margin:8px 0}
+    .list li{margin:10px 0}
 
-    .steps{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+    .steps{display:grid; grid-template-columns:repeat(4,1fr); gap:14px}
     .step{
       background:rgba(11,35,64,.6); border:1px solid rgba(255,255,255,.06);
-      padding:14px; border-radius:14px; font-size:14.5px;
+      padding:16px; border-radius:14px; font-size:14.5px;
     }
     .step b{
-      display:inline-flex; width:26px; height:26px; align-items:center; justify-content:center;
-      border-radius:8px; background:#0b2b4e; margin-bottom:8px;
+      display:inline-flex; width:28px; height:28px; align-items:center; justify-content:center;
+      border-radius:8px; background:#0b2b4e; margin-bottom:10px;
     }
 
     .quote{
+      margin-top:18px;
       background: linear-gradient(180deg, rgba(56,189,248,.12), rgba(14,165,233,.08));
       border:1px solid rgba(56,189,248,.35);
-      padding:16px; border-radius:16px;
+      padding:18px; border-radius:16px;
       font-size:15.5px; color:#e0f2fe;
     }
 
     .pricing{
-      display:grid; grid-template-columns:1.2fr .8fr; gap:14px;
+      display:grid; grid-template-columns:1.2fr .8fr; gap:18px;
       background:rgba(11,35,64,.7); border:1px solid rgba(255,255,255,.06);
-      padding:18px; border-radius:18px;
+      padding:20px; border-radius:18px;
     }
     .pricing ul{margin:0; padding-left:18px; color:#d7e6fb}
     .pricing .box{
       background:#061a32; border:1px solid rgba(255,255,255,.08);
-      padding:14px; border-radius:14px;
+      padding:16px; border-radius:14px;
     }
 
     .faq details{
       background:rgba(11,35,64,.65); border:1px solid rgba(255,255,255,.06);
-      padding:12px 14px; border-radius:12px; margin-bottom:8px;
+      padding:14px 16px; border-radius:12px; margin-bottom:10px;
     }
     .faq summary{cursor:pointer; font-weight:600}
     footer{
-      padding:26px 0 40px; color:var(--muted); border-top:1px solid rgba(255,255,255,.06);
+      padding:30px 0 46px; color:var(--muted); border-top:1px solid rgba(255,255,255,.06);
+    }
+
+    /* Separatore */
+    .divider{
+      height:120px; margin:-10px 0 -10px;
+      background:
+        radial-gradient(600px 120px at 15% 40%, rgba(56,189,248,.18), transparent 70%),
+        radial-gradient(520px 110px at 85% 60%, rgba(14,165,233,.16), transparent 70%);
+      mask: radial-gradient(circle at 50% 0%, transparent 0 40px, black 41px);
+      opacity:.9;
+    }
+
+    /* Immagini prodotto */
+    .img-wrap{
+      margin:10px 0;
+      background:rgba(11,35,64,.55);
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:16px;
+      padding:12px;
+      box-shadow: var(--shadow);
+    }
+    .product-img{
+      width:100%;
+      height:auto;
+      display:block;
+      border-radius:12px;
     }
 
     @media (max-width: 900px){
@@ -174,12 +220,16 @@
       .cards{grid-template-columns:1fr 1fr}
       .steps{grid-template-columns:1fr 1fr}
       h1{font-size:36px}
+      section{padding:60px 0}
+      .hero{padding:80px 0 52px}
     }
     @media (max-width: 560px){
       nav ul{display:none}
       .cards{grid-template-columns:1fr}
       .steps{grid-template-columns:1fr}
       .stats{grid-template-columns:1fr}
+      .lead{max-width:unset}
+      .logo-img{height:30px}
     }
   </style>
 </head>
@@ -188,7 +238,7 @@
 <header>
   <div class="container nav">
     <div class="logo">
-      <span style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#38bdf8,#0ea5e9);display:inline-block"></span>
+      <img class="logo-img" src="assets/WaveAILogo_White.png" alt="WaveAI" />
       <div>
         WaveAI
         <span class="pill">WaveRAG Studio</span>
@@ -254,6 +304,8 @@
     </div>
   </section>
 
+  <div class="divider"></div>
+
   <!-- PROBLEMA -->
   <section id="problema" class="container">
     <h2 class="section-title">Il problema oggi</h2>
@@ -264,17 +316,27 @@
 
     <div class="cards">
       <div class="card">
+        <div class="icon">+</div>
         <h3>Documenti frammentati</h3>
         <p>Gestionali, email, cartelle di rete, portali esterni. È difficile sapere “dove sta scritto”.</p>
       </div>
       <div class="card">
+        <div class="icon">↺</div>
         <h3>Richieste ripetitive</h3>
         <p>I junior chiedono spesso precedenti, clausole o riferimenti normativi, bloccando i senior.</p>
       </div>
       <div class="card">
+        <div class="icon">AI</div>
         <h3>Paura dell’AI generica</h3>
         <p>Risposte non spiegabili e timore che i dati finiscano fuori controllo.</p>
       </div>
+    </div>
+  </section>
+
+  <!-- IMMAGINE 1 -->
+  <section class="container" aria-hidden="true" style="padding-top:10px;padding-bottom:10px">
+    <div class="img-wrap">
+      <img class="product-img" src="assets/Image1.png" alt="" />
     </div>
   </section>
 
@@ -308,6 +370,8 @@
     </div>
   </section>
 
+  <div class="divider"></div>
+
   <!-- COME FUNZIONA -->
   <section id="come-funziona" class="container">
     <h2 class="section-title">Come funziona (in 4 passi)</h2>
@@ -318,8 +382,15 @@
       <div class="step"><b>4</b><div>Il sistema risponde con citazioni e tracciabilità.</div></div>
     </div>
 
-    <div style="margin-top:14px" class="quote">
+    <div class="quote">
       “Non un chatbot generico: è AI che lavora <b>sui tuoi documenti</b> e ti fa vedere le fonti.”
+    </div>
+  </section>
+
+  <!-- IMMAGINE 2 -->
+  <section class="container" aria-hidden="true" style="padding-top:10px;padding-bottom:10px">
+    <div class="img-wrap">
+      <img class="product-img" src="assets/Image2.png" alt="" />
     </div>
   </section>
 
@@ -348,12 +419,14 @@
           <li>un set iniziale di documenti</li>
           <li>2–3 persone dello studio per il test</li>
         </ul>
-        <div style="margin-top:10px">
+        <div style="margin-top:12px">
           <a class="btn" href="#questionario">Compila il questionario</a>
         </div>
       </div>
     </div>
   </section>
+
+  <div class="divider"></div>
 
   <!-- QUESTIONARIO -->
   <section id="questionario" class="container">
@@ -365,7 +438,7 @@
     <div style="background:rgba(11,35,64,.7);border:1px solid rgba(255,255,255,.06);border-radius:16px;overflow:hidden">
       <iframe
         src="https://docs.google.com/forms/d/1eCrIK9dRS9UyAVmBzjDn6apU_v_vyvAEZKo3jZUr2Ck/viewform?embedded=true"
-        width="100%" height="680" frameborder="0" marginheight="0" marginwidth="0"
+        width="100%" height="700" frameborder="0" marginheight="0" marginwidth="0"
         style="display:block;background:#fff">
         Caricamento…
       </iframe>
@@ -378,14 +451,14 @@
 
     <details>
       <summary>È un altro chatbot generico?</summary>
-      <div style="margin-top:6px;color:#d7e6fb">
+      <div style="margin-top:8px;color:#d7e6fb">
         No. WaveRAG Studio lavora in modalità RAG: risponde usando i documenti dello studio, con citazioni alle fonti.
       </div>
     </details>
 
     <details>
       <summary>I dati dello studio finiscono in training esterno?</summary>
-      <div style="margin-top:6px;color:#d7e6fb">
+      <div style="margin-top:8px;color:#d7e6fb">
         No. I documenti costruiscono basi di conoscenza private; l’LLM può essere locale o cloud,
         con routing e guardrail controllati.
       </div>
@@ -393,14 +466,14 @@
 
     <details>
       <summary>Possiamo separare clienti o aree?</summary>
-      <div style="margin-top:6px;color:#d7e6fb">
+      <div style="margin-top:8px;color:#d7e6fb">
         Sì, multi-tenant e multi-knowledge-base by design: niente mescolamenti di contenuti.
       </div>
     </details>
 
     <details>
       <summary>Come controlliamo costi e uso?</summary>
-      <div style="margin-top:6px;color:#d7e6fb">
+      <div style="margin-top:8px;color:#d7e6fb">
         Ogni chiamata è tracciabile con log e metriche per tenant/KB, così capisci cosa costa cosa.
       </div>
     </details>
