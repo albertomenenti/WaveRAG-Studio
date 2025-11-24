@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WaveAI • WaveRAG Studio</title>
+  <meta name="description" content="WaveRAG Studio trasforma i documenti dello studio in una knowledge base privata interrogabile in linguaggio naturale con risposte verificabili e citazioni." />
+
+  <style>
+    :root{
+      --bg:#071225; --bg2:#071b2f; --card:#0b2340; --card2:#061a32;
+      --txt:#e6f0ff; --muted:#a9bdd8;
+
+      /* Azzurro brand */
+      --brand:#38bdf8;     /* sky */
+      --brand2:#0ea5e9;    /* cyan/blue */
+
+      --ok:#34d399;
+      --radius:18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color:var(--txt); background:
+        radial-gradient(1200px 700px at 10% -10%, #0b2a4b 0%, transparent 60%),
+        radial-gradient(900px 600px at 90% 0%, #063a56 0%, transparent 55%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      line-height:1.6;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1100px; margin:0 auto; padding:0 20px}
+    header{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(8px);
+      background: rgba(7,18,37,.7);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between; height:64px;
+    }
+    .logo{
+      display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px;
+    }
+    .pill{
+      font-size:12px; color:#7dd3fc; background:rgba(56,189,248,.12);
+      padding:2px 8px; border-radius:999px; border:1px solid rgba(56,189,248,.35);
+    }
+    nav ul{display:flex; gap:16px; list-style:none; margin:0; padding:0; font-size:14px; color:var(--muted)}
+    nav a:hover{color:var(--txt)}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:12px 16px; border-radius:12px; font-weight:600;
+      background: linear-gradient(90deg, var(--brand), var(--brand2));
+      color:#031627; box-shadow: var(--shadow); border:0; cursor:pointer;
+      transition: transform .08s ease, opacity .2s ease;
+    }
+    .btn:hover{transform: translateY(-1px); opacity:.95}
+    .btn.ghost{
+      background:transparent; color:var(--txt);
+      border:1px solid rgba(255,255,255,.12); box-shadow:none;
+    }
+
+    /* Hero */
+    .hero{padding:70px 0 40px}
+    .hero-grid{
+      display:grid; grid-template-columns: 1.1fr .9fr; gap:26px; align-items:center;
+    }
+    .tag{
+      display:inline-flex; gap:8px; align-items:center; color:#7dd3fc;
+      font-size:13px; background:rgba(125,211,252,.1);
+      padding:6px 10px; border-radius:999px; border:1px solid rgba(125,211,252,.35);
+    }
+    h1{font-size:44px; line-height:1.1; margin:14px 0}
+    .lead{font-size:18px; color:#d6e4f7}
+    .cta-row{display:flex; gap:10px; margin-top:18px; flex-wrap:wrap}
+    .stats{
+      display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:22px;
+    }
+    .stat{
+      background:rgba(11,35,64,.7); border:1px solid rgba(255,255,255,.06);
+      padding:14px; border-radius:14px;
+    }
+    .stat b{font-size:20px}
+    .stat span{display:block; font-size:12px; color:var(--muted)}
+
+    .hero-card{
+      background: linear-gradient(180deg, rgba(11,35,64,.85), rgba(6,26,50,.95));
+      border:1px solid rgba(255,255,255,.08);
+      padding:18px; border-radius:var(--radius); box-shadow: var(--shadow);
+      position:relative; overflow:hidden;
+    }
+    .hero-card .bubble{
+      position:absolute; width:220px; height:220px; border-radius:999px;
+      right:-80px; top:-80px; background: radial-gradient(circle, rgba(56,189,248,.30), transparent 60%);
+      filter: blur(1px);
+    }
+    .hero-card .row{display:flex; gap:10px; margin:10px 0}
+    .chip{
+      font-size:12px; padding:6px 8px; border-radius:10px;
+      background:#061a32; border:1px solid rgba(255,255,255,.07); color:#cfe2fb;
+    }
+    .query{
+      margin-top:10px; background:#061a32; border:1px dashed rgba(255,255,255,.12);
+      padding:12px; border-radius:12px; font-size:14px; color:#e2ecfb;
+    }
+    .answer{
+      margin-top:10px; background:#062b2a; border:1px solid rgba(52,211,153,.4);
+      padding:12px; border-radius:12px; font-size:14px;
+    }
+    .answer small{color:#a7f3d0}
+
+    section{padding:46px 0}
+    .section-title{font-size:28px; margin:0 0 8px}
+    .section-lead{color:var(--muted); margin:0 0 18px}
+
+    .cards{
+      display:grid; grid-template-columns:repeat(3,1fr); gap:14px;
+    }
+    .card{
+      background:rgba(11,35,64,.75); border:1px solid rgba(255,255,255,.07);
+      padding:16px; border-radius:16px;
+    }
+    .card h3{margin:0 0 6px; font-size:18px}
+    .card p{margin:0; color:#d7e6fb; font-size:14.5px}
+
+    .two-col{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+    .list{
+      background:rgba(11,35,64,.6); border:1px solid rgba(255,255,255,.06);
+      padding:16px; border-radius:16px;
+    }
+    .list ul{margin:0; padding-left:18px; color:#d7e6fb}
+    .list li{margin:8px 0}
+
+    .steps{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+    .step{
+      background:rgba(11,35,64,.6); border:1px solid rgba(255,255,255,.06);
+      padding:14px; border-radius:14px; font-size:14.5px;
+    }
+    .step b{
+      display:inline-flex; width:26px; height:26px; align-items:center; justify-content:center;
+      border-radius:8px; background:#0b2b4e; margin-bottom:8px;
+    }
+
+    .quote{
+      background: linear-gradient(180deg, rgba(56,189,248,.12), rgba(14,165,233,.08));
+      border:1px solid rgba(56,189,248,.35);
+      padding:16px; border-radius:16px;
+      font-size:15.5px; color:#e0f2fe;
+    }
+
+    .pricing{
+      display:grid; grid-template-columns:1.2fr .8fr; gap:14px;
+      background:rgba(11,35,64,.7); border:1px solid rgba(255,255,255,.06);
+      padding:18px; border-radius:18px;
+    }
+    .pricing ul{margin:0; padding-left:18px; color:#d7e6fb}
+    .pricing .box{
+      background:#061a32; border:1px solid rgba(255,255,255,.08);
+      padding:14px; border-radius:14px;
+    }
+
+    .faq details{
+      background:rgba(11,35,64,.65); border:1px solid rgba(255,255,255,.06);
+      padding:12px 14px; border-radius:12px; margin-bottom:8px;
+    }
+    .faq summary{cursor:pointer; font-weight:600}
+    footer{
+      padding:26px 0 40px; color:var(--muted); border-top:1px solid rgba(255,255,255,.06);
+    }
+
+    @media (max-width: 900px){
+      .hero-grid,.two-col,.pricing{grid-template-columns:1fr}
+      .cards{grid-template-columns:1fr 1fr}
+      .steps{grid-template-columns:1fr 1fr}
+      h1{font-size:36px}
+    }
+    @media (max-width: 560px){
+      nav ul{display:none}
+      .cards{grid-template-columns:1fr}
+      .steps{grid-template-columns:1fr}
+      .stats{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="container nav">
+    <div class="logo">
+      <span style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#38bdf8,#0ea5e9);display:inline-block"></span>
+      <div>
+        WaveAI
+        <span class="pill">WaveRAG Studio</span>
+      </div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#problema">Problema</a></li>
+        <li><a href="#soluzione">Soluzione</a></li>
+        <li><a href="#come-funziona">Come funziona</a></li>
+        <li><a href="#pilota">Pilota</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </nav>
+    <a class="btn ghost" href="#questionario">Fai il questionario</a>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero container">
+    <div class="hero-grid">
+      <div>
+        <div class="tag">RAG affidabile • dai tuoi documenti • con citazioni</div>
+        <h1>WaveRAG Studio<br/>la tua knowledge base privata, interrogabile come una persona.</h1>
+        <p class="lead">
+          WaveRAG Studio (by WaveAI) trasforma contratti, pareri, circolari, bilanci e normativa
+          in una base di conoscenza dello studio interrogabile in linguaggio naturale.
+          Le risposte arrivano con fonti verificabili: niente “allucinazioni”.
+        </p>
+
+        <div class="cta-row">
+          <a class="btn" href="#pilota">Avvia un pilota</a>
+          <a class="btn ghost" href="#soluzione">Vedi cosa cambia</a>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><b>Meno ricerca</b><span>tra precedenti e archivi sparsi</span></div>
+          <div class="stat"><b>Risposte citate</b><span>con fonti verificabili</span></div>
+          <div class="stat"><b>Dati isolati</b><span>per cliente / area / team</span></div>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="bubble"></div>
+        <div style="font-weight:700;font-size:16px">Esempio reale in studio</div>
+        <div class="row">
+          <div class="chip">Contratti</div>
+          <div class="chip">Pareri</div>
+          <div class="chip">Circolari</div>
+          <div class="chip">Normativa</div>
+        </div>
+        <div class="query">Domanda: “Abbiamo già gestito un caso simile? C’è una clausola modello?”</div>
+        <div class="answer">
+          Risposta: “Sì. Nel parere del 14/03/2024 (p. 3) abbiamo usato questa impostazione…”<br/>
+          <small>Fonti: Parere_ClienteX.pdf • Clausole_Modello.docx</small>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <div class="chip">Supporto ai junior</div>
+          <div class="chip">Senza bloccare i senior</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEMA -->
+  <section id="problema" class="container">
+    <h2 class="section-title">Il problema oggi</h2>
+    <p class="section-lead">
+      Nello studio la documentazione è tanta, preziosa e sparsa. Ritrovare la risposta giusta costa tempo
+      e interrompe il lavoro dei senior.
+    </p>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Documenti frammentati</h3>
+        <p>Gestionali, email, cartelle di rete, portali esterni. È difficile sapere “dove sta scritto”.</p>
+      </div>
+      <div class="card">
+        <h3>Richieste ripetitive</h3>
+        <p>I junior chiedono spesso precedenti, clausole o riferimenti normativi, bloccando i senior.</p>
+      </div>
+      <div class="card">
+        <h3>Paura dell’AI generica</h3>
+        <p>Risposte non spiegabili e timore che i dati finiscano fuori controllo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUZIONE -->
+  <section id="soluzione" class="container">
+    <h2 class="section-title">Cosa cambia con WaveRAG Studio</h2>
+    <p class="section-lead">
+      Una spina dorsale RAG pronta per studi: basi di conoscenza private, multi-tenant,
+      risposte verificabili con citazioni.
+    </p>
+
+    <div class="two-col">
+      <div class="list">
+        <h3 style="margin-top:0">Per lo studio</h3>
+        <ul>
+          <li><b>Base di conoscenza privata</b> sui documenti dello studio.</li>
+          <li><b>Risposte con citazioni</b> a passaggi precisi di contratti, pareri, circolari.</li>
+          <li><b>Supporto ai junior</b> senza bloccare i senior.</li>
+          <li><b>Spazi separati</b> per cliente, area o attività (multi-tenant).</li>
+          <li><b>Controllo di log e costi</b> integrato.</li>
+        </ul>
+      </div>
+      <div class="list">
+        <h3 style="margin-top:0">Perché è diversa da un PoC</h3>
+        <ul>
+          <li>Nasce per produzione: isolamento, sicurezza baseline, osservabilità.</li>
+          <li>Un unico backbone per più casi d’uso, senza rifare tutto da zero.</li>
+          <li>Quando l’informazione non c’è, lo dice: niente allucinazioni “sicure”.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- COME FUNZIONA -->
+  <section id="come-funziona" class="container">
+    <h2 class="section-title">Come funziona (in 4 passi)</h2>
+    <div class="steps">
+      <div class="step"><b>1</b><div>Carichi un set di documenti rappresentativi.</div></div>
+      <div class="step"><b>2</b><div>Li indicizziamo in una knowledge base privata.</div></div>
+      <div class="step"><b>3</b><div>Il team fa domande in linguaggio naturale.</div></div>
+      <div class="step"><b>4</b><div>Il sistema risponde con citazioni e tracciabilità.</div></div>
+    </div>
+
+    <div style="margin-top:14px" class="quote">
+      “Non un chatbot generico: è AI che lavora <b>sui tuoi documenti</b> e ti fa vedere le fonti.”
+    </div>
+  </section>
+
+  <!-- PILOTA -->
+  <section id="pilota" class="container">
+    <h2 class="section-title">Partiamo con un pilota mirato</h2>
+    <p class="section-lead">
+      Iniziamo da un’area concreta (contrattualistica, contenzioso, fiscalità, pareri ricorrenti),
+      misuriamo il valore e poi estendiamo.
+    </p>
+
+    <div class="pricing">
+      <div>
+        <h3 style="margin-top:0">Obiettivi di pilot</h3>
+        <ul>
+          <li>Ridurre il tempo di ricerca di casi e documenti.</li>
+          <li>Abbassare richieste ripetitive interne.</li>
+          <li>Aumentare affidabilità con risposte verificabili.</li>
+          <li>Tenere costi e uso sotto controllo per area/cliente.</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3 style="margin-top:0">Cosa serve da te</h3>
+        <ul>
+          <li>1 area di lavoro scelta insieme</li>
+          <li>un set iniziale di documenti</li>
+          <li>2–3 persone dello studio per il test</li>
+        </ul>
+        <div style="margin-top:10px">
+          <a class="btn" href="#questionario">Compila il questionario</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUESTIONARIO -->
+  <section id="questionario" class="container">
+    <h2 class="section-title">Questionario / intervista</h2>
+    <p class="section-lead">
+      Compilalo: ci aiuta a tarare il pilota sulle tue esigenze reali.
+    </p>
+
+    <div style="background:rgba(11,35,64,.7);border:1px solid rgba(255,255,255,.06);border-radius:16px;overflow:hidden">
+      <iframe
+        src="https://docs.google.com/forms/d/1eCrIK9dRS9UyAVmBzjDn6apU_v_vyvAEZKo3jZUr2Ck/viewform?embedded=true"
+        width="100%" height="680" frameborder="0" marginheight="0" marginwidth="0"
+        style="display:block;background:#fff">
+        Caricamento…
+      </iframe>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="container faq">
+    <h2 class="section-title">FAQ</h2>
+
+    <details>
+      <summary>È un altro chatbot generico?</summary>
+      <div style="margin-top:6px;color:#d7e6fb">
+        No. WaveRAG Studio lavora in modalità RAG: risponde usando i documenti dello studio, con citazioni alle fonti.
+      </div>
+    </details>
+
+    <details>
+      <summary>I dati dello studio finiscono in training esterno?</summary>
+      <div style="margin-top:6px;color:#d7e6fb">
+        No. I documenti costruiscono basi di conoscenza private; l’LLM può essere locale o cloud,
+        con routing e guardrail controllati.
+      </div>
+    </details>
+
+    <details>
+      <summary>Possiamo separare clienti o aree?</summary>
+      <div style="margin-top:6px;color:#d7e6fb">
+        Sì, multi-tenant e multi-knowledge-base by design: niente mescolamenti di contenuti.
+      </div>
+    </details>
+
+    <details>
+      <summary>Come controlliamo costi e uso?</summary>
+      <div style="margin-top:6px;color:#d7e6fb">
+        Ogni chiamata è tracciabile con log e metriche per tenant/KB, così capisci cosa costa cosa.
+      </div>
+    </details>
+  </section>
+</main>
+
+<footer class="container">
+  <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center">
+    <div>
+      <b style="color:#e6f0ff">WaveAI • WaveRAG Studio</b><br/>
+      <span>Risposte affidabili dai tuoi documenti.</span>
+    </div>
+    <div style="display:flex;gap:10px">
+      <a class="btn ghost" href="#pilota">Avvia un pilota</a>
+      <a class="btn ghost" href="#questionario">Questionario</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
